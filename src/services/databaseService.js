@@ -1,10 +1,15 @@
 const sqlite3 = require('sqlite3').verbose()
+const logger = require('../../logger')
 
 const dbName = 'todoApp.db'
 
 function initializeDatabase() {
-  const db = new sqlite3.Database(dbName, () => {
-    console.log('Connected to the SQLite database.')
+  const db = new sqlite3.Database(dbName, (err) => {
+    if (err) {
+      logger.error(err.message)
+    }
+
+    logger.info(`Connected to the SQLite database: ${dbName}`)
   })
 
   return db
@@ -13,9 +18,10 @@ function initializeDatabase() {
 function initializeTestDatabase() {
   const db = new sqlite3.Database(':memory:', (err) => {
     if (err) {
-      console.error(err.message)
+      logger.error(err.message)
     }
-    console.log('Connected to the SQLite database.')
+
+    logger.info('Connected to the SQLite in-memory database')
   })
 
   return db

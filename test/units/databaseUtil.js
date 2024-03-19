@@ -3,13 +3,15 @@ const db = require('../../src/database')
 // Helper function to promisify the SQLite run method
 function runAsync(sql, params = []) {
   return new Promise((resolve, reject) => {
-    db.run(sql, params, (err) => {
+    function action(err) {
       if (err) {
         reject(err)
       } else {
         resolve(this)
       }
-    })
+    }
+
+    db.run(sql, params, action)
   })
 }
 
