@@ -1,18 +1,19 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const router = require("./routes");
+const express = require('express')
+const bodyParser = require('body-parser')
+const router = require('./routes')
 
-const app = express();
+const app = express()
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
-app.use("/api", router);
+app.use('/api', router)
 
 // Error handler
-app.use((err, req, res, next) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, _next) => {
   if (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message })
   }
-});
+})
 
-module.exports = app;
+module.exports = app
