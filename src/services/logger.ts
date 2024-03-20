@@ -1,4 +1,4 @@
-const pino = require('pino')
+import pino from 'pino'
 
 // Determine if logs should be pretty-printed
 const prettyPrint = process.env.NODE_ENV === 'development'
@@ -17,4 +17,4 @@ const logger = pino({
   }),
 })
 
-module.exports = logger
+export default logger

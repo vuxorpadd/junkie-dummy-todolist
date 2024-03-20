@@ -1,9 +1,11 @@
-const sqlite3 = require('sqlite3').verbose()
-const logger = require('./logger')
+import { verbose } from 'sqlite3'
 
+import logger from './logger'
+
+const sqlite3 = verbose()
 const dbName = 'todoApp.db'
 
-function initializeDatabase() {
+export function initializeDatabase() {
   const db = new sqlite3.Database(dbName, (err) => {
     if (err) {
       logger.error(err.message)
@@ -15,7 +17,7 @@ function initializeDatabase() {
   return db
 }
 
-function initializeTestDatabase() {
+export function initializeTestDatabase() {
   const db = new sqlite3.Database(':memory:', (err) => {
     if (err) {
       logger.error(err.message)
@@ -25,9 +27,4 @@ function initializeTestDatabase() {
   })
 
   return db
-}
-
-module.exports = {
-  initializeDatabase,
-  initializeTestDatabase,
 }

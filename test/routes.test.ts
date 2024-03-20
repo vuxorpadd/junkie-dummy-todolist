@@ -1,6 +1,7 @@
-const request = require('supertest')
-const app = require('../src/app')
-const { createToDoItem, getAllToDoItems, removeAllToDoItems, getToDoItem } = require('./units/databaseUtil')
+import request from 'supertest'
+import app from '../src/app'
+// @ts-ignore
+import { createToDoItem, getAllToDoItems, getToDoItem, removeAllToDoItems } from './units/databaseUtil'
 
 const apiBase = '/api'
 
@@ -39,6 +40,7 @@ describe('Todo API', () => {
     expect(response.body).toHaveProperty('id')
 
     const allAfter = await getAllToDoItems()
+
     expect(allAfter.length).toBe(1)
     expect(allAfter[0]).toMatchObject({
       title: 'New Todo',

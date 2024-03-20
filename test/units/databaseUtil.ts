@@ -1,4 +1,5 @@
-const db = require('../../src/database')
+import db from '../../src/database'
+import { TodoItem } from '../../src/types/common.types'
 
 // Helper function to promisify the SQLite run method
 function runAsync(sql, params = []) {
@@ -15,7 +16,7 @@ function runAsync(sql, params = []) {
   })
 }
 
-async function createTables() {
+export async function createTables() {
   await runAsync(
     `CREATE TABLE IF NOT EXISTS todos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,39 +26,46 @@ async function createTables() {
   )
 }
 
-async function createToDoItem(params) {
-  const result = await runAsync('INSERT INTO todos (title, completed) VALUES (?, ?)', [params.title, params.completed])
+// create todo item and return result
+export async function createToDoItem(params): Promise<Partial<TodoItem>> {
+  return new Promise((resolve, reject) => {
+    function action(err) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({ id: this.lastID })
+      }
+    }
 
-  return {
-    id: result.lastID,
-  }
+    db.run('INSERT INTO todos (title, completed) VALUES (?, ?)', [params.title, params.completed], action)
+  })
 }
 
-async function updateToDoItem(params) {
+export async function updateToDoItem(params) {
   await runAsync('UPDATE todos SET title = ?, completed = ? WHERE id = ?', [params.title, params.completed, params.id])
 }
 
-async function removeToDoItem(id) {
+export async function removeToDoItem(id) {
   await runAsync('DELETE FROM todos WHERE id = ?', [id])
 }
 
-async function removeAllToDoItems() {
+export async function removeAllToDoItems() {
   await runAsync('DELETE FROM todos')
 }
 
-async function getAllToDoItems() {
+export async function getAllToDoItems(): Promise<TodoItem[]> {
   return new Promise((resolve, reject) => {
     db.all('SELECT * FROM todos', [], (err, rows) => {
       if (err) {
         reject(err)
       } else {
-        resolve(rows)
+        resolve(rows as TodoItem[])
       }
     })
   })
 }
 
-async function getToDoItem(id) {
+export async function getToDoItem(id) {
   return new Promise((resolve, reject) => {
     db.get('SELECT * FROM todos WHERE id = ?', [id], (err, row) => {
       if (err) {
@@ -67,14 +75,4 @@ async function getToDoItem(id) {
       }
     })
   })
-}
-
-module.exports = {
-  createTables,
-  createToDoItem,
-  updateToDoItem,
-  removeToDoItem,
-  removeAllToDoItems,
-  getAllToDoItems,
-  getToDoItem,
 }

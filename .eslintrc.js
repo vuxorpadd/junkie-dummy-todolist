@@ -1,11 +1,12 @@
 module.exports = {
+  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
     commonjs: true,
     es2021: true,
     jest: true,
   },
-  extends: ['airbnb-base', 'plugin:prettier/recommended', 'prettier'],
+  extends: ['airbnb-base', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'prettier'],
   overrides: [
     {
       env: {
@@ -19,6 +20,7 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   rules: {},
 }

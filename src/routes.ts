@@ -1,6 +1,7 @@
-const router = require('express').Router()
+import { Router } from 'express'
+import db from './database'
 
-const db = require('./database')
+const router = Router()
 
 // Get all todos
 router.get('/todos', (req, res) => {
@@ -42,7 +43,7 @@ router.patch('/todos/:id', (req, res) => {
 
   function action(err) {
     if (err) {
-      res.status(400).json({ error: res.message })
+      res.status(400).json({ error: 'Something went wrong' })
       return
     }
     res.json({
@@ -54,4 +55,4 @@ router.patch('/todos/:id', (req, res) => {
   db.run(`UPDATE todos SET title = ?, completed = ? WHERE id = ?`, [title, completed, id], action)
 })
 
-module.exports = router
+export default router

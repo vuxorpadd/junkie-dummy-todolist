@@ -1,4 +1,4 @@
-const { initializeDatabase, initializeTestDatabase } = require('./services/databaseService')
+import { initializeDatabase, initializeTestDatabase } from './services/databaseService'
 
 const db = process.env.NODE_ENV === 'test' ? initializeTestDatabase() : initializeDatabase()
 
@@ -10,4 +10,4 @@ db.serialize(() => {
     )`)
 })
 
-module.exports = db
+export default db

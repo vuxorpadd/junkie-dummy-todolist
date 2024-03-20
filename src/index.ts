@@ -1,5 +1,5 @@
-const app = require('./app')
-const logger = require('./services/logger')
+import app from './app'
+import logger from './services/logger'
 
 const PORT = process.env.PORT || 3000
 
