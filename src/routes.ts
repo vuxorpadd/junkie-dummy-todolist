@@ -12,7 +12,8 @@ router.get('/todos', (req, res) => {
     }
     res.json({
       message: 'success',
-      data: rows,
+      // data: rows,
+      data: [],
     })
   })
 })
